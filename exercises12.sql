@@ -54,14 +54,14 @@ WHERE customer_id = ANY
 			GROUP BY customer_id
 		) AS counts
 	)
-)
--- Q4 (alternative but this one fails when there are multiple customers with same count of payments)
-SELECT * FROM customer
-WHERE customer_id = 
-(
-	SELECT customer_id FROM payment
-	GROUP BY customer_id
-	ORDER BY COUNT(*) DESC
-	LIMIT 1
 );
+-- Q4 (alternative but this one fails when there are multiple customers with same count of payments)
+SELECT customer.customer_id, customer.first_name, customer.last_name
+FROM payment
+JOIN customer 
+ON payment.customer_id = customer.customer_id
+GROUP BY customer.customer_id, customer.first_name, customer.last_name
+ORDER BY COUNT(*) DESC
+LIMIT 1;
+
 
