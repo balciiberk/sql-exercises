@@ -55,5 +55,13 @@ WHERE customer_id = ANY
 		) AS counts
 	)
 )
-
+-- Q4 (alternative but this one fails when there are multiple customers with same count of payments)
+SELECT * FROM customer
+WHERE customer_id = 
+(
+	SELECT customer_id FROM payment
+	GROUP BY customer_id
+	ORDER BY COUNT(*) DESC
+	LIMIT 1
+);
 
